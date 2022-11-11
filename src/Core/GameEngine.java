@@ -99,9 +99,6 @@ public class GameEngine
 
     private void InitializeGameObjects(GameMapLoader map)
     {
-        this.player = new CollisionComponent(new Player(map.getLoadedPlayerAABB().getPos(),
-                map.getLoadedPlayerAABB().getSizeX(),
-                map.getLoadedPlayerAABB().getSizeY()));
         this.player = new Player(
                 map.getLoadedPlayerAABB().getPos(),
                 map.getLoadedPlayerAABB().getSizeX(),

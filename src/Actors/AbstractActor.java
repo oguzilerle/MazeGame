@@ -15,6 +15,8 @@ public abstract class AbstractActor extends AABB
     private boolean isActive;
     private SpriteComponent _spriteComponent;
 
+    private Position2D<Float> _movedOffset = new Position2D<>(Float.valueOf(0), Float.valueOf(0));
+
     public AbstractActor(Position2D<Float> pos, float szX, float szY)
     {
         super(pos, szX, szY);
@@ -56,5 +58,16 @@ public abstract class AbstractActor extends AABB
     public void SetSpriteComponent(SpriteComponent component)
     {
         this._spriteComponent = component;
+    }
+
+    public Position2D<Float> GetMovedOffset()
+    {
+        return _movedOffset;
+    }
+
+    public void SetMovedOffset(Float x, Float y)
+    {
+        _movedOffset.x = Float.sum(_movedOffset.x, x);
+        _movedOffset.y = Float.sum(_movedOffset.y, y);
     }
 }
