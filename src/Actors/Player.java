@@ -9,6 +9,7 @@ import java.io.IOException;
 public class Player extends AbstractActor
 {
     private int _movementSpeed;
+    public Graphics2D _g;
 
     public Player(Position2D<Float> pos, float szX, float szY)
     {

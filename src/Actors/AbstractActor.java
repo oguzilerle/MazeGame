@@ -1,5 +1,6 @@
 package Actors;
 
+import Components.IRealTimeComponent;
 import Components.SpriteComponent;
 import Util.AABB;
 import Util.Position2D;

@@ -9,13 +9,16 @@ import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 
-public class SpriteComponent implements IDrawable
+public class SpriteComponent extends RealTimeComponent implements IDrawable
 {
     private BufferedImage img;
 
-    public SpriteComponent(String filePath) throws IOException
+
+    public SpriteComponent(AbstractActor actor, String filePath) throws IOException
     {
+        super(actor);
         img = ImageIO.read(new File(filePath));
+        this.GetAbstractActor().SetSpriteComponent(this);
     }
 
     /**

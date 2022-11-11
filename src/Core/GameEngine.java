@@ -99,110 +99,109 @@ public class GameEngine
 
     private void InitializeGameObjects(GameMapLoader map)
     {
-        this.player = new Player(
-                map.getLoadedPlayerAABB().getPos(),
-                map.getLoadedPlayerAABB().getSizeX(),
-                map.getLoadedPlayerAABB().getSizeY());
-        SpriteComponent playerSprite;
+        InitializePlayer(map);
+        InitializeWalls(map);
+        InitializePowerUps(map);
+        InitializeEnemies(map);
+    }
+
+    private void InitializePlayer(GameMapLoader map)
+    {
         try
         {
-            playerSprite = new SpriteComponent(this.player.GetSpritePath());
-            this.player.SetSpriteComponent(playerSprite);
+            this.player = new SpriteComponent(
+                    new Player(
+                        map.getLoadedPlayerAABB().getPos(),
+                        map.getLoadedPlayerAABB().getSizeX(),
+                        map.getLoadedPlayerAABB().getSizeY()),
+            "./data/img/player.png").GetAbstractActor();
         }
         catch (IOException e)
         {
             throw new RuntimeException(e);
         }
+    }
 
+    private void InitializeWalls(GameMapLoader map)
+    {
         for (int i = 0; i < map.getLoadedWallAABBs().size(); i++)
         {
-            Wall currentWall = new Wall(
-                    map.getLoadedWallAABBs().get(i).getPos(),
-                    map.getLoadedWallAABBs().get(i).getSizeX(),
-                    map.getLoadedWallAABBs().get(i).getSizeY());
-            this.walls.add(currentWall);
-            SpriteComponent wallSprite;
+            AbstractActor currentWall = null;
             try
             {
-                wallSprite = new SpriteComponent(currentWall.GetSpritePath());
-                currentWall.SetSpriteComponent(wallSprite);
+                currentWall = new SpriteComponent(new Wall(
+                        map.getLoadedWallAABBs().get(i).getPos(),
+                        map.getLoadedWallAABBs().get(i).getSizeX(),
+                        map.getLoadedWallAABBs().get(i).getSizeY()), "./data/img/wall.png").GetAbstractActor();
             }
             catch (IOException e)
             {
+                System.out.println("Wall load failed");
                 throw new RuntimeException(e);
             }
+            this.walls.add((Wall) currentWall);
         }
-        for (int i = 0; i < map.getLoadedEnemyXAABBs().size(); i++)
-        {
-            Enemy currentEnemy = new HorizontalEnemy(
-                    map.getLoadedEnemyXAABBs().get(i).getPos(),
-                    map.getLoadedEnemyXAABBs().get(i).getSizeX(),
-                    map.getLoadedEnemyXAABBs().get(i).getSizeY());
-            this.enemies.add(currentEnemy);
-            SpriteComponent enemySprite;
-            try
-            {
-                enemySprite = new SpriteComponent(currentEnemy.GetSpritePath());
-                currentEnemy.SetSpriteComponent(enemySprite);
-            }
-            catch (IOException e)
-            {
-                throw new RuntimeException(e);
-            }
-        }
-        for (int i = 0; i < map.getLoadedEnemyYAABBs().size(); i++)
-        {
-            Enemy currentEnemy = new VerticalEnemy(
-                    map.getLoadedEnemyYAABBs().get(i).getPos(),
-                    map.getLoadedEnemyYAABBs().get(i).getSizeX(),
-                    map.getLoadedEnemyYAABBs().get(i).getSizeY());
-            this.enemies.add(currentEnemy);
-            SpriteComponent enemySprite;
-            try
-            {
-                enemySprite = new SpriteComponent(currentEnemy.GetSpritePath());
-                currentEnemy.SetSpriteComponent(enemySprite);
-            }
-            catch (IOException e)
-            {
-                throw new RuntimeException(e);
-            }
-        }
-        for (int i = 0; i < map.getLoadedEnemyStationaryAABBs().size(); i++)
-        {
-            Enemy currentEnemy = new StationaryEnemy(
-                    map.getLoadedEnemyStationaryAABBs().get(i).getPos(),
-                    map.getLoadedEnemyStationaryAABBs().get(i).getSizeX(),
-                    map.getLoadedEnemyStationaryAABBs().get(i).getSizeY());
-            this.enemies.add(currentEnemy);
-            SpriteComponent enemySprite;
-            try
-            {
-                enemySprite = new SpriteComponent(currentEnemy.GetSpritePath());
-                currentEnemy.SetSpriteComponent(enemySprite);
-            }
-            catch (IOException e)
-            {
-                throw new RuntimeException(e);
-            }
-        }
+    }
+
+    private void InitializePowerUps(GameMapLoader map)
+    {
         for (int i = 0; i < map.getLoadedPowerUpAABBs().size(); i++)
         {
-            PowerUp currentPowerUp = new PowerUp(
-                    map.getLoadedPowerUpAABBs().get(i).getPos(),
-                    map.getLoadedPowerUpAABBs().get(i).getSizeX(),
-                    map.getLoadedPowerUpAABBs().get(i).getSizeY());
-            this.powerUps.add(currentPowerUp);
-            SpriteComponent powerUpSprite;
-            try
-            {
-                powerUpSprite = new SpriteComponent(currentPowerUp.GetSpritePath());
-                currentPowerUp.SetSpriteComponent(powerUpSprite);
-            }
-            catch (IOException e)
-            {
+            AbstractActor currentPowerUp = null;
+            try {
+                currentPowerUp = new SpriteComponent(new PowerUp(
+                        map.getLoadedPowerUpAABBs().get(i).getPos(),
+                        map.getLoadedPowerUpAABBs().get(i).getSizeX(),
+                        map.getLoadedPowerUpAABBs().get(i).getSizeY()), "./data/img/scroll.png").GetAbstractActor();
+            } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            this.powerUps.add((PowerUp) currentPowerUp);
+        }
+    }
+
+    private void InitializeEnemies(GameMapLoader map)
+    {
+        for (int i = 0; i < map.getLoadedEnemyXAABBs().size(); i++)
+        {
+            AbstractActor currentEnemy = null;
+            try {
+                currentEnemy = new SpriteComponent(new Enemy(
+                        map.getLoadedEnemyXAABBs().get(i).getPos(),
+                        map.getLoadedEnemyXAABBs().get(i).getSizeX(),
+                        map.getLoadedEnemyXAABBs().get(i).getSizeY()), "./data/img/enemy.png").GetAbstractActor();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            this.enemies.add((Enemy) currentEnemy);
+        }
+
+        for (int i = 0; i < map.getLoadedEnemyYAABBs().size(); i++)
+        {
+            AbstractActor currentEnemy = null;
+            try {
+                currentEnemy = new SpriteComponent(new Enemy(
+                        map.getLoadedEnemyYAABBs().get(i).getPos(),
+                        map.getLoadedEnemyYAABBs().get(i).getSizeX(),
+                        map.getLoadedEnemyYAABBs().get(i).getSizeY()), "./data/img/enemy.png").GetAbstractActor();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            this.enemies.add((Enemy) currentEnemy);
+        }
+
+        for (int i = 0; i < map.getLoadedEnemyStationaryAABBs().size(); i++)
+        {
+            AbstractActor currentEnemy = null;
+            try {
+                currentEnemy = new SpriteComponent(new Enemy(
+                        map.getLoadedEnemyStationaryAABBs().get(i).getPos(),
+                        map.getLoadedEnemyStationaryAABBs().get(i).getSizeX(),
+                        map.getLoadedEnemyStationaryAABBs().get(i).getSizeY()), "./data/img/enemy.png").GetAbstractActor();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            this.enemies.add((Enemy) currentEnemy);
         }
     }
 }

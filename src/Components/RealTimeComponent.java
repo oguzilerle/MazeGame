@@ -2,16 +2,20 @@ package Components;
 
 import Actors.AbstractActor;
 
-public abstract class RealTimeComponent extends AbstractActor implements IRealTimeComponent
+public abstract class RealTimeComponent implements IRealTimeComponent
 {
     protected AbstractActor actor;
 
     public RealTimeComponent(AbstractActor actor)
     {
-        super(actor.getPos(),actor.getSizeX(), actor.getSizeY());
         this.actor = actor;
     }
     public void update(float deltaT)
     {
+    }
+
+    public AbstractActor GetAbstractActor()
+    {
+        return this.actor;
     }
 }
