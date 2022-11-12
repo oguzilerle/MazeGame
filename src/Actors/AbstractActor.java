@@ -1,5 +1,7 @@
 package Actors;
 
+import Components.CollisionComponent;
+import Components.CollisionListener;
 import Components.IRealTimeComponent;
 import Components.SpriteComponent;
 import Util.AABB;
@@ -15,6 +17,10 @@ public abstract class AbstractActor extends AABB
     private String _spritePath;
     private boolean isActive;
     private SpriteComponent _spriteComponent;
+
+    private CollisionComponent _collisionComponent;
+
+    private CollisionListener _listener;
 
     private Position2D<Float> _movedOffset = new Position2D<>(Float.valueOf(0), Float.valueOf(0));
 
@@ -70,5 +76,30 @@ public abstract class AbstractActor extends AABB
     {
         _movedOffset.x = Float.sum(_movedOffset.x, x);
         _movedOffset.y = Float.sum(_movedOffset.y, y);
+    }
+
+    public void ResetMovedOffset()
+    {
+        _movedOffset.x = Float.valueOf(0);
+        _movedOffset.y = Float.valueOf(0);
+    }
+
+
+    public CollisionComponent GetCollisionComponent()
+    {
+        return this._collisionComponent;
+    }
+    public void SetCollisionComponent(CollisionComponent component)
+    {
+        this._collisionComponent = component;
+    }
+
+    public CollisionListener GetListener()
+    {
+        return this._listener;
+    }
+    public void SetListener(CollisionListener listener)
+    {
+        this._listener = listener;
     }
 }

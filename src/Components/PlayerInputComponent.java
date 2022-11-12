@@ -24,6 +24,7 @@ public class PlayerInputComponent extends RealTimeComponent implements IRealTime
     {
         super(actor);
         GameWindow.GetInstance().attachKeyListener(this);
+        actor.SetInputComponent(this);
     }
 
     @Override
@@ -65,19 +66,19 @@ public class PlayerInputComponent extends RealTimeComponent implements IRealTime
         //TODO: Move player when input occurs
         if(leftPressed)
         {
-
+            this.GetAbstractActor().SetMovedOffset(Float.valueOf(-0.5f),Float.valueOf(0f));
         }
         if (rightPressed)
         {
-
+            this.GetAbstractActor().SetMovedOffset(Float.valueOf(0.5f),Float.valueOf(0f));
         }
         if (upPressed)
         {
-
+            this.GetAbstractActor().SetMovedOffset(Float.valueOf(0f),Float.valueOf(-0.5f));
         }
         if (downPressed)
         {
-
+            this.GetAbstractActor().SetMovedOffset(Float.valueOf(0f),Float.valueOf(0.5f));
         }
     }
 

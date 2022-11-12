@@ -103,17 +103,18 @@ public class GameEngine
         InitializeWalls(map);
         InitializePowerUps(map);
         InitializeEnemies(map);
+        
     }
 
     private void InitializePlayer(GameMapLoader map)
     {
         try
         {
-            this.player = new SpriteComponent(
+            this.player = new SpriteComponent(new CollisionComponent(new PlayerInputComponent(
                     new Player(
                         map.getLoadedPlayerAABB().getPos(),
                         map.getLoadedPlayerAABB().getSizeX(),
-                        map.getLoadedPlayerAABB().getSizeY()),
+                        map.getLoadedPlayerAABB().getSizeY())).GetAbstractActor()).GetAbstractActor(),
             "./data/img/player.png").GetAbstractActor();
         }
         catch (IOException e)
@@ -129,10 +130,10 @@ public class GameEngine
             AbstractActor currentWall = null;
             try
             {
-                currentWall = new SpriteComponent(new Wall(
+                currentWall = new SpriteComponent(new CollisionListener(new Wall(
                         map.getLoadedWallAABBs().get(i).getPos(),
                         map.getLoadedWallAABBs().get(i).getSizeX(),
-                        map.getLoadedWallAABBs().get(i).getSizeY()), "./data/img/wall.png").GetAbstractActor();
+                        map.getLoadedWallAABBs().get(i).getSizeY())).GetAbstractActor(), "./data/img/wall.png").GetAbstractActor();
             }
             catch (IOException e)
             {

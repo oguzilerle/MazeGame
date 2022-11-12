@@ -1,5 +1,6 @@
 package Actors;
 
+import Components.CollisionListener;
 import Util.Position2D;
 
 import java.awt.*;
@@ -18,4 +19,6 @@ public class Wall extends AbstractActor
         // Does nothing
         this.GetSpriteComponent().draw(g, this);
     }
+
+
 }
