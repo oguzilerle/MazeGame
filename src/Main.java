@@ -15,5 +15,6 @@ public class Main
         Dimension screenDimension = GameWindow.GetInstance().getScreenDimension();
         GameEngine engine = new GameEngine(args[0], screenDimension);
         GameWindow.GetInstance().setGame(engine);
+
     }
 }

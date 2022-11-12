@@ -2,20 +2,18 @@ package Components;
 
 import Actors.AbstractActor;
 
-public abstract class RealTimeComponent implements IRealTimeComponent
-{
+import java.awt.*;
+
+public class RealTimeComponent implements IRealTimeComponent{
+
     protected AbstractActor actor;
 
     public RealTimeComponent(AbstractActor actor)
     {
         this.actor = actor;
     }
-    public void update(float deltaT)
-    {
-    }
+    @Override
+    public void update(float deltaT, Graphics2D currentDrawBuffer) {
 
-    public AbstractActor GetAbstractActor()
-    {
-        return this.actor;
     }
 }

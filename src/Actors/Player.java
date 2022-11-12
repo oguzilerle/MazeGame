@@ -1,51 +1,64 @@
 package Actors;
 
-import Components.CollisionComponent;
-import Components.PlayerInputComponent;
-import Components.SpriteComponent;
+import Components.*;
 import Util.Position2D;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Player extends AbstractActor
 {
-    private int _movementSpeed;
-    public Graphics2D _g;
-    private PlayerInputComponent _inputComponent;
-
-    public Player(Position2D<Float> pos, float szX, float szY)
-    {
+    private boolean firedBullet;
+    private ArrayList<Bullet> activeBullets;
+    private ArrayList<IRealTimeComponent> components;
+    private ArrayList<Enemy> enemiesList;
+    /**
+     * Constructor, directly sets the every parameter
+     *
+     * @param pos "top right" (wrt. the screen coordinates) of the box
+     * @param szX horizontal size of the box in pixels
+     * @param szY vertical size of the box in pixels
+     */
+    public Player(Position2D<Float> pos, float szX, float szY, ArrayList<Bullet> bulletsList, ArrayList<IRealTimeComponent> components, ArrayList<Enemy> enemiesList) {
         super(pos, szX, szY);
-        SetSpritePath("./data/img/player.png");
+        this.activeBullets = bulletsList;
+        this.components = components;
+        this.enemiesList = enemiesList;
+        this.firedBullet = false;
     }
-
-
-    // TODO:
 
     @Override
     public void update(float deltaT, Graphics2D g)
     {
         // TODO: or delete
-        this.GetSpriteComponent().draw(g, this);
-        move(deltaT);
+        if (firedBullet)
+        {
+            ShootBullet();
+            firedBullet = false;
+        }
     }
 
-    public PlayerInputComponent GetInputComponent()
+    public void Fire()
     {
-        return _inputComponent;
+        this.firedBullet = true;
     }
 
-    public void SetInputComponent(PlayerInputComponent component)
+    public void ShootBullet()
     {
-        this._inputComponent = component;
-    }
+        Bullet currentBullet = new Bullet(this.getPos(),this.getSizeX(), this.getSizeY()*0.5f);
+        currentBullet.SetDirection(this.GetDirection());
+        RealTimeComponent bulletComponent;
+        try {bulletComponent = new SpriteComponent(currentBullet, "./data/img/bullet.png");
+            components.add(bulletComponent);}
+        catch (IOException e){throw new RuntimeException(e);}
 
-    private void move(float deltaT)
-    {
-        _inputComponent.update(deltaT);
-        SetPos(Float.sum(this.getPos().x, this.GetMovedOffset().x), Float.sum(this.getPos().y, this.GetMovedOffset().y));
-        ResetMovedOffset();
-    }
+        CollisionComponent nbulletComponent = new CollisionComponent(currentBullet);
+        for(int i = 0; i < this.enemiesList.size();i++){nbulletComponent.attach(this.enemiesList.get(i));}
+        components.add(nbulletComponent);
 
+        bulletComponent = new BulletEnemyCollisionHandler(currentBullet, this.enemiesList);
+        components.add(bulletComponent);
+        this.activeBullets.add(currentBullet);
+    }
 }

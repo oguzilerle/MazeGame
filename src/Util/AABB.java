@@ -120,17 +120,16 @@ public class AABB
      * Accessors
      */
     public Position2D<Float> getPos() { return pos; }
+
+    public void setPos(Position2D<Float> newPos)
+    {
+        this.pos = newPos;
+    }
     public float getSizeX() { return szX; }
     public float getSizeY() { return szY; }
     public Position2D<Float> getCenter()
     {
         return new Position2D<>(pos.x + szX * 0.5f,
                                pos.y + szY * 0.5f);
-    }
-
-    public void SetPos(Float x, Float y)
-    {
-        pos.x = x;
-        pos.y = y;
     }
 }

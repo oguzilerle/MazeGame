@@ -1,9 +1,5 @@
 package Actors;
 
-import Components.CollisionComponent;
-import Components.CollisionListener;
-import Components.IRealTimeComponent;
-import Components.SpriteComponent;
 import Util.AABB;
 import Util.Position2D;
 
@@ -13,24 +9,21 @@ import java.awt.*;
 // Everything in the game is an actor
 public abstract class AbstractActor extends AABB
 {
-    // TODO:
-    private String _spritePath;
-    private boolean isActive;
-    private SpriteComponent _spriteComponent;
-
-    private CollisionComponent _collisionComponent;
-
-    private CollisionListener _listener;
-
-    private Position2D<Float> _movedOffset = new Position2D<>(Float.valueOf(0), Float.valueOf(0));
-
-    public AbstractActor(Position2D<Float> pos, float szX, float szY)
-    {
+    private boolean isAlive;
+    private Direction moveDirection;
+    /**
+     * Constructor, directly sets the every parameter
+     *
+     * @param pos "top right" (wrt. the screen coordinates) of the box
+     * @param szX horizontal size of the box in pixels
+     * @param szY vertical size of the box in pixels
+     */
+    public AbstractActor(Position2D<Float> pos, float szX, float szY) {
         super(pos, szX, szY);
-        this.isActive = true;
+        moveDirection = Direction.RIGHT;
+        isAlive = true;
     }
-
-
+    // TODO:
 
     public void update(float deltaT, Graphics2D g)
     {
@@ -39,67 +32,21 @@ public abstract class AbstractActor extends AABB
 
     public boolean isDead()
     {
-        return !isActive;
+        return !isAlive;
+    }
+
+    public Direction GetDirection()
+    {
+        return moveDirection;
+    }
+
+    public void SetDirection(Direction value)
+    {
+        moveDirection = value;
     }
 
     public void Kill()
     {
-        this.isActive = false;
-    }
-
-    public String GetSpritePath()
-    {
-        return _spritePath;
-    }
-
-    public void SetSpritePath(String path)
-    {
-        _spritePath = path;
-    }
-
-    public SpriteComponent GetSpriteComponent()
-    {
-        return _spriteComponent;
-    }
-
-    public void SetSpriteComponent(SpriteComponent component)
-    {
-        this._spriteComponent = component;
-    }
-
-    public Position2D<Float> GetMovedOffset()
-    {
-        return _movedOffset;
-    }
-
-    public void SetMovedOffset(Float x, Float y)
-    {
-        _movedOffset.x = Float.sum(_movedOffset.x, x);
-        _movedOffset.y = Float.sum(_movedOffset.y, y);
-    }
-
-    public void ResetMovedOffset()
-    {
-        _movedOffset.x = Float.valueOf(0);
-        _movedOffset.y = Float.valueOf(0);
-    }
-
-
-    public CollisionComponent GetCollisionComponent()
-    {
-        return this._collisionComponent;
-    }
-    public void SetCollisionComponent(CollisionComponent component)
-    {
-        this._collisionComponent = component;
-    }
-
-    public CollisionListener GetListener()
-    {
-        return this._listener;
-    }
-    public void SetListener(CollisionListener listener)
-    {
-        this._listener = listener;
+        this.isAlive = false;
     }
 }

@@ -1,18 +1,33 @@
 package Components;
 
 import Actors.AbstractActor;
+import Actors.Enemy;
 
-public class BulletEnemyCollisionHandler extends RealTimeComponent implements IRealTimeComponent
+import java.awt.*;
+import java.util.ArrayList;
+
+public class BulletEnemyCollisionHandler extends RealTimeComponent
 {
-
-    public BulletEnemyCollisionHandler(AbstractActor actor)
-    {
-        super(actor);
-    }
     // TODO:
+    private ArrayList<Enemy> enemies;
+
+    public BulletEnemyCollisionHandler(AbstractActor actor, ArrayList<Enemy> enemies) {
+        super(actor);
+        this.enemies = enemies;
+    }
+
     @Override
-    public void update(float deltaT)
+    public void update(float deltaT, Graphics2D currentDrawBuffer)
     {
+        if (this.actor.isDead()) return;
         // TODO:
+        for(int i = 0; i < enemies.size(); i++)
+        {
+            if(this.actor.collides(enemies.get(i)))
+            {
+                enemies.get(i).Damage();
+                this.actor.Kill();
+            }
+        }
     }
 }

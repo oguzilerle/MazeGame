@@ -1,42 +1,40 @@
 package Actors;
 
-import Components.AbstractPatrolStrategy;
 import Util.Position2D;
+
 import java.awt.*;
+import java.util.Random;
+import java.util.random.RandomGenerator;
 
 public class Enemy extends AbstractActor
 {
-    // TODO:
-    private int _health;
-    private int _movementSpeed;
-    private AbstractPatrolStrategy _strategy;
+    private int health;
+    /**
+     * Constructor, directly sets the every parameter
+     *
+     * @param pos "top right" (wrt. the screen coordinates) of the box
+     * @param szX horizontal size of the box in pixels
+     * @param szY vertical size of the box in pixels
+     */
     public Enemy(Position2D<Float> pos, float szX, float szY) {
         super(pos, szX, szY);
-        SetSpritePath("./data/img/enemy.png");
+        health = 100;
     }
+    // TODO:
+
 
     @Override
     public void update(float deltaT, Graphics2D g)
     {
         // TODO: or delete
-        this.GetSpriteComponent().draw(
-                g, new Enemy(
-                        this.getPos(),
-                        this.getSizeX(),
-                        this.getSizeY()));
-
-        UpdatePosition();
+        if (health <= 0)
+        {
+            this.Kill();
+        }
     }
 
-    public void UpdatePosition(){}
-
-    private void SetStrategy(AbstractPatrolStrategy strategy)
+    public void Damage()
     {
-        this._strategy = strategy;
-    }
-
-    private void ExecuteStrategy()
-    {
-        //execute
+        this.health -= 30 + Math.random() * 10;
     }
 }

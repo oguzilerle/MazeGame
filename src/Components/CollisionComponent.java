@@ -1,37 +1,69 @@
 package Components;
 
 import Actors.AbstractActor;
+import Actors.Direction;
 
+import java.awt.*;
 import java.util.ArrayList;
-import java.util.List;
 
-public class CollisionComponent extends RealTimeComponent
+public class CollisionComponent extends RealTimeComponent implements ICollisionListener
 {
-    // TODO:
-    public CollisionComponent(AbstractActor actor)
-    {
+    private ArrayList<AbstractActor> listeners;
+
+    public CollisionComponent(AbstractActor actor) {
         super(actor);
-        actor.SetCollisionComponent(this);
+        listeners = new ArrayList<AbstractActor>();
     }
-    private ArrayList<ICollisionListener> _listeners = new ArrayList<ICollisionListener>();
 
-    public void Attach(ICollisionListener listener)
+    public void attach(AbstractActor listener)
     {
-        this._listeners.add(listener);
+        listeners.add(listener);
     }
 
-    public void Detach(ICollisionListener listener)
-    {
-        this._listeners.remove(this._listeners.indexOf(listener));
-    }
-
+    // TODO:
     @Override
-    public void update(float deltaT)
+    public void update(float deltaT, Graphics2D currentDrawBuffer)
     {
         // TODO:
-        for (int i = 0; i < this._listeners.size(); i++)
+        for (int i = 0; i < listeners.size(); i++)
         {
-            this._listeners.get(i).aCollisionIsHappened(this.GetAbstractActor());
+            if(this.actor.collides(this.listeners.get(i))) aCollisionIsHappened(this.listeners.get(i));
+        }
+    }
+
+
+    @Override
+    public void aCollisionIsHappened(AbstractActor actor) {
+        if (actor.getClass().getName() == "Actors.Enemy" && this.actor.getClass().getName() == "Actors.Player")
+        {
+            if (actor.isDead()) return;
+            this.actor.Kill();
+        }
+        if (actor.getClass().getName() == "Actors.Wall" && this.actor.getClass().getName() == "Actors.Enemy")
+        {
+            switch (this.actor.GetDirection())
+            {
+                case UP:
+                    this.actor.SetDirection(Direction.DOWN);
+                    break;
+                case DOWN:
+                    this.actor.SetDirection(Direction.UP);
+                    break;
+                case RIGHT:
+                    this.actor.SetDirection(Direction.LEFT);
+                    break;
+                case LEFT:
+                    this.actor.SetDirection(Direction.RIGHT);
+                    break;
+            }
+        }
+        if (actor.getClass().getName() == "Actors.PowerUp" && this.actor.getClass().getName() == "Actors.Player")
+        {
+            actor.Kill();
+        }
+        if (actor.getClass().getName() == "Actors.Wall" && this.actor.getClass().getName() == "Actors.Player")
+        {
+            this.actor.moveIfCollide(actor);
         }
     }
 }

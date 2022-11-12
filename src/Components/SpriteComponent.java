@@ -13,12 +13,10 @@ public class SpriteComponent extends RealTimeComponent implements IDrawable
 {
     private BufferedImage img;
 
-
     public SpriteComponent(AbstractActor actor, String filePath) throws IOException
     {
         super(actor);
         img = ImageIO.read(new File(filePath));
-        this.GetAbstractActor().SetSpriteComponent(this);
     }
 
     /**
@@ -40,7 +38,7 @@ public class SpriteComponent extends RealTimeComponent implements IDrawable
                     (ImageObserver)null);
     }
     @Override
-    public void update(float deltaT)
+    public void update(float deltaT, Graphics2D currentDrawBuffer)
     {
         /* No Animation of the sprites so do nothing */
 
@@ -49,5 +47,6 @@ public class SpriteComponent extends RealTimeComponent implements IDrawable
         // You can tinker with them if you want.
         //
         // You will NOT get extra points though!!!!!!!
+        if (!this.actor.isDead()) draw(currentDrawBuffer, this.actor);
     }
 }

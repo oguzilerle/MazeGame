@@ -1,14 +1,16 @@
 package Components;
 
 import Actors.AbstractActor;
+import Actors.Direction;
 import Actors.Player;
-import Core.GameEngine;
 import Core.GameWindow;
+import Util.Position2D;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class PlayerInputComponent extends RealTimeComponent implements IRealTimeComponent,KeyListener
+public class PlayerInputComponent extends RealTimeComponent implements KeyListener
 {
     // Internal States
     private boolean leftPressed;
@@ -16,22 +18,22 @@ public class PlayerInputComponent extends RealTimeComponent implements IRealTime
     private boolean upPressed;
     private boolean downPressed;
     private boolean firePressed;
-
     // TODO: Add additional properties if required
 
     // TODO: Implement a constructor
-    public PlayerInputComponent(Player actor)
+    public PlayerInputComponent(AbstractActor actor)
     {
         super(actor);
         GameWindow.GetInstance().attachKeyListener(this);
-        actor.SetInputComponent(this);
     }
 
     @Override
-    public void update(float deltaT)
+    public void update(float deltaT, Graphics2D currentDrawBuffer)
     {
         // TODO:
+        if (this.actor.isDead()) return;
         move();
+        fire();
     }
 
     @Override
@@ -57,38 +59,47 @@ public class PlayerInputComponent extends RealTimeComponent implements IRealTime
         if(e.getKeyCode() == KeyEvent.VK_DOWN) downPressed = false;
         // Enforce release operation on fire
         if(e.getKeyCode() == KeyEvent.VK_SPACE) firePressed = true;
+
         // TODO: You can also change this code if you want to handle inputs differently
         // this is given as a guideline to read key events
+
     }
 
     public void move()
     {
+        Float currentX = this.actor.getPos().x;
+        Float currentY = this.actor.getPos().y;
         //TODO: Move player when input occurs
         if(leftPressed)
         {
-            this.GetAbstractActor().SetMovedOffset(Float.valueOf(-0.5f),Float.valueOf(0f));
+            this.actor.setPos(new Position2D<Float>(Float.sum(currentX, Float.valueOf(-0.55f)), currentY));
+            this.actor.SetDirection(Direction.LEFT);
         }
         if (rightPressed)
         {
-            this.GetAbstractActor().SetMovedOffset(Float.valueOf(0.5f),Float.valueOf(0f));
+            this.actor.setPos(new Position2D<Float>(Float.sum(currentX, Float.valueOf(0.55f)), currentY));
+            this.actor.SetDirection(Direction.RIGHT);
         }
         if (upPressed)
         {
-            this.GetAbstractActor().SetMovedOffset(Float.valueOf(0f),Float.valueOf(-0.5f));
+            this.actor.setPos(new Position2D<Float>(currentX, Float.sum(currentY, Float.valueOf(-0.6f))));
+            this.actor.SetDirection(Direction.UP);
         }
         if (downPressed)
         {
-            this.GetAbstractActor().SetMovedOffset(Float.valueOf(0f),Float.valueOf(0.5f));
+            this.actor.setPos(new Position2D<Float>(currentX, Float.sum(currentY, Float.valueOf(0.6f))));
+            this.actor.SetDirection(Direction.DOWN);
         }
     }
 
-    public boolean HasFired()
+    public void fire()
     {
-        return this.firePressed;
+        if (firePressed)
+        {
+            Player thisPlayer = (Player) this.actor;
+            thisPlayer.Fire();
+            firePressed = false;
+        }
     }
 
-    public void EndFire()
-    {
-        this.firePressed = false;
-    }
 }
