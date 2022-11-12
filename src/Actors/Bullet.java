@@ -27,7 +27,7 @@ public class Bullet extends AbstractActor
     {
         move();
         time += 0.01f;
-        if (time > 5)
+        if (time > 1.25)
         {
             this.Kill();
         }
@@ -37,10 +37,10 @@ public class Bullet extends AbstractActor
     {
         switch (this.GetDirection())
         {
-            case UP -> this.setPos(new Position2D<Float>(this.getPos().x, Float.sum(this.getPos().y, Float.valueOf(-0.6f))));
-            case DOWN -> this.setPos(new Position2D<Float>(this.getPos().x, Float.sum(this.getPos().y, Float.valueOf(0.6f))));
-            case LEFT -> this.setPos(new Position2D<Float>(Float.sum(this.getPos().x, Float.valueOf(-0.6f)), this.getPos().y));
-            case RIGHT -> this.setPos(new Position2D<Float>(Float.sum(this.getPos().x, Float.valueOf(0.6f)), this.getPos().y));
+            case UP -> this.setPos(new Position2D<Float>(this.getPos().x, Float.sum(this.getPos().y, Float.valueOf(-1.5f))));
+            case DOWN -> this.setPos(new Position2D<Float>(this.getPos().x, Float.sum(this.getPos().y, Float.valueOf(1.5f))));
+            case LEFT -> this.setPos(new Position2D<Float>(Float.sum(this.getPos().x, Float.valueOf(-1.5f)), this.getPos().y));
+            case RIGHT -> this.setPos(new Position2D<Float>(Float.sum(this.getPos().x, Float.valueOf(1.5f)), this.getPos().y));
         }
     }
 

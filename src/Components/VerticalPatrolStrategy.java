@@ -22,11 +22,11 @@ public class VerticalPatrolStrategy extends AbstractPatrolStrategy
         // TODO:
         if (this.actor.GetDirection() == Direction.UP)
         {
-            this.actor.setPos(new Position2D<Float>(this.actor.getPos().x,Float.sum(this.actor.getPos().y, Float.valueOf(-0.2f))));
+            this.actor.setPos(new Position2D<Float>(this.actor.getPos().x,Float.sum(this.actor.getPos().y, Float.valueOf(-0.66f))));
         }
         else if (this.actor.GetDirection() == Direction.DOWN)
         {
-            this.actor.setPos(new Position2D<Float>(this.actor.getPos().x,Float.sum(this.actor.getPos().y, Float.valueOf(0.2f))));
+            this.actor.setPos(new Position2D<Float>(this.actor.getPos().x,Float.sum(this.actor.getPos().y, Float.valueOf(0.66f))));
         }
     }
 }

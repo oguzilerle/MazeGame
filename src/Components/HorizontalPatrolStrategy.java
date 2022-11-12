@@ -20,11 +20,11 @@ public class HorizontalPatrolStrategy extends AbstractPatrolStrategy
         // TODO:
         if (this.actor.GetDirection() == Direction.RIGHT)
         {
-            this.actor.setPos(new Position2D<Float>(Float.sum(this.actor.getPos().x, Float.valueOf(-0.2f)), this.actor.getPos().y));
+            this.actor.setPos(new Position2D<Float>(Float.sum(this.actor.getPos().x, Float.valueOf(-0.66f)), this.actor.getPos().y));
         }
         else if (this.actor.GetDirection() == Direction.LEFT)
         {
-            this.actor.setPos(new Position2D<Float>(Float.sum(this.actor.getPos().x, Float.valueOf(0.2f)), this.actor.getPos().y));
+            this.actor.setPos(new Position2D<Float>(Float.sum(this.actor.getPos().x, Float.valueOf(0.66f)), this.actor.getPos().y));
         }
     }
 }
