@@ -20,11 +20,9 @@ public class CollisionComponent extends RealTimeComponent implements ICollisionL
         listeners.add(listener);
     }
 
-    // TODO:
     @Override
     public void update(float deltaT, Graphics2D currentDrawBuffer)
     {
-        // TODO:
         for (int i = 0; i < listeners.size(); i++)
         {
             if(this.actor.collides(this.listeners.get(i))) aCollisionIsHappened(this.listeners.get(i));

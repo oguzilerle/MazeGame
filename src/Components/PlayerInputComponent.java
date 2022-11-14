@@ -32,7 +32,7 @@ public class PlayerInputComponent extends RealTimeComponent implements KeyListen
     {
         // TODO:
         if (this.actor.isDead()) return;
-        move();
+        move(deltaT);
         fire();
     }
 
@@ -65,29 +65,29 @@ public class PlayerInputComponent extends RealTimeComponent implements KeyListen
 
     }
 
-    public void move()
+    public void move(float deltaT)
     {
         Float currentX = this.actor.getPos().x;
         Float currentY = this.actor.getPos().y;
         //TODO: Move player when input occurs
         if(leftPressed)
         {
-            this.actor.setPos(new Position2D<Float>(Float.sum(currentX, Float.valueOf(-0.55f)), currentY));
+            this.actor.setPos(new Position2D<Float>(Float.sum(currentX, Float.valueOf(-110*deltaT)), currentY));
             this.actor.SetDirection(Direction.LEFT);
         }
         if (rightPressed)
         {
-            this.actor.setPos(new Position2D<Float>(Float.sum(currentX, Float.valueOf(0.55f)), currentY));
+            this.actor.setPos(new Position2D<Float>(Float.sum(currentX, Float.valueOf(110*deltaT)), currentY));
             this.actor.SetDirection(Direction.RIGHT);
         }
         if (upPressed)
         {
-            this.actor.setPos(new Position2D<Float>(currentX, Float.sum(currentY, Float.valueOf(-0.6f))));
+            this.actor.setPos(new Position2D<Float>(currentX, Float.sum(currentY, Float.valueOf(-110*deltaT))));
             this.actor.SetDirection(Direction.UP);
         }
         if (downPressed)
         {
-            this.actor.setPos(new Position2D<Float>(currentX, Float.sum(currentY, Float.valueOf(0.6f))));
+            this.actor.setPos(new Position2D<Float>(currentX, Float.sum(currentY, Float.valueOf(110*deltaT))));
             this.actor.SetDirection(Direction.DOWN);
         }
     }

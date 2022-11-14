@@ -25,7 +25,7 @@ public class Bullet extends AbstractActor
     @Override
     public void update(float deltaT, Graphics2D g)
     {
-        move();
+        move(deltaT);
         time += 0.01f;
         if (time > 1.25)
         {
@@ -33,14 +33,14 @@ public class Bullet extends AbstractActor
         }
     }
 
-    private void move()
+    private void move(float deltaT)
     {
         switch (this.GetDirection())
         {
-            case UP -> this.setPos(new Position2D<Float>(this.getPos().x, Float.sum(this.getPos().y, Float.valueOf(-1.5f))));
-            case DOWN -> this.setPos(new Position2D<Float>(this.getPos().x, Float.sum(this.getPos().y, Float.valueOf(1.5f))));
-            case LEFT -> this.setPos(new Position2D<Float>(Float.sum(this.getPos().x, Float.valueOf(-1.5f)), this.getPos().y));
-            case RIGHT -> this.setPos(new Position2D<Float>(Float.sum(this.getPos().x, Float.valueOf(1.5f)), this.getPos().y));
+            case UP -> this.setPos(new Position2D<Float>(this.getPos().x, Float.sum(this.getPos().y, Float.valueOf(-300*deltaT))));
+            case DOWN -> this.setPos(new Position2D<Float>(this.getPos().x, Float.sum(this.getPos().y, Float.valueOf(300*deltaT))));
+            case LEFT -> this.setPos(new Position2D<Float>(Float.sum(this.getPos().x, Float.valueOf(-300*deltaT)), this.getPos().y));
+            case RIGHT -> this.setPos(new Position2D<Float>(Float.sum(this.getPos().x, Float.valueOf(300*deltaT)), this.getPos().y));
         }
     }
 
