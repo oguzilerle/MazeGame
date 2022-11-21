@@ -1,5 +1,5 @@
 # MazeGame
-CENG443-HW1
+Object Oriented Programming - Homework 1
 
 Oğuz İlerle
 2467447
